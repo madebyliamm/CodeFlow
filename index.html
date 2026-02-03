@@ -13,7 +13,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #0a0a0f;
+            background: #000000;
             color: #ffffff;
             overflow-x: hidden;
         }
@@ -21,45 +21,56 @@
         /* Hero Section */
         .hero {
             height: 90vh;
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             align-items: center;
-            justify-content: center;
-            gap: 40px;
+            padding: 0 80px;
+            gap: 80px;
             position: relative;
         }
 
-        .logo {
-            font-size: 72px;
-            font-weight: 800;
-            letter-spacing: -2px;
-            background: linear-gradient(135deg, #ffffff 0%, #a78bfa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: fadeIn 0.8s ease-out;
+        .hero-content {
+            animation: slideInLeft 0.8s ease-out;
         }
 
-        @keyframes fadeIn {
+        @keyframes slideInLeft {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateX(-40px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateX(0);
             }
+        }
+
+        .logo {
+            font-size: 120px;
+            font-weight: 800;
+            letter-spacing: -4px;
+            background: linear-gradient(135deg, #ffffff 0%, #4a9eff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 24px;
+            line-height: 1;
+        }
+
+        .tagline {
+            font-size: 24px;
+            color: #999;
+            margin-bottom: 48px;
+            font-weight: 400;
         }
 
         .hero-buttons {
             display: flex;
-            gap: 20px;
-            animation: fadeIn 0.8s ease-out 0.2s backwards;
+            gap: 16px;
         }
 
         .btn {
-            padding: 16px 32px;
-            font-size: 16px;
+            padding: 18px 36px;
+            font-size: 18px;
             font-weight: 600;
             border: none;
             border-radius: 12px;
@@ -70,208 +81,328 @@
         }
 
         .btn-primary {
-            background: #a78bfa;
+            background: #4a9eff;
             color: #ffffff;
         }
 
         .btn-primary:hover {
-            background: #b99dfb;
+            background: #5aafff;
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(167, 139, 250, 0.3);
+            box-shadow: 0 12px 32px rgba(74, 158, 255, 0.4);
         }
 
         .btn-secondary {
-            background: #1a1a2e;
+            background: #1a1a1a;
             color: #e0e0e0;
-            border: 2px solid #2a2a3e;
+            border: 2px solid #2a2a2a;
         }
 
         .btn-secondary:hover {
-            background: #2a2a3e;
-            border-color: #a78bfa;
+            background: #2a2a2a;
+            border-color: #4a9eff;
             transform: translateY(-2px);
         }
+
+        /* Browser Mockup */
+        .browser-mockup {
+            perspective: 1000px;
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .browser-window {
+            background: #0a0a0a;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .browser-header {
+            background: #0a0a0a;
+            padding: 16px 20px;
+            border-bottom: 1px solid #2a2a2a;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .browser-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .browser-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .browser-dot.red { background: #ff5f56; }
+        .browser-dot.yellow { background: #ffbd2e; }
+        .browser-dot.green { background: #27c93f; }
+
+        .browser-url {
+            flex: 1;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .browser-content {
+            display: flex;
+            height: 400px;
+        }
+
+        .browser-sidebar {
+            width: 200px;
+            background: #0a0a0a;
+            border-right: 1px solid #1a1a1a;
+            padding: 16px;
+        }
+
+        .sidebar-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .file-item {
+            padding: 8px 12px;
+            margin: 4px 0;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .file-item.active {
+            background: #4a9eff20;
+            color: #4a9eff;
+        }
+
+        .browser-editor {
+            flex: 1;
+            background: #0a0a0a;
+            padding: 24px;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow: hidden;
+        }
+
+        .code-line {
+            display: block;
+            white-space: pre;
+        }
+
+        .code-tag { color: #4a9eff; }
+        .code-attr { color: #ff6b9d; }
+        .code-string { color: #c3e88d; }
+        .code-comment { color: #666; }
 
         .scroll-indicator {
             position: absolute;
             bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
             animation: bounce 2s infinite;
         }
 
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
+                transform: translateX(-50%) translateY(0);
             }
             40% {
-                transform: translateY(-10px);
+                transform: translateX(-50%) translateY(-10px);
             }
             60% {
-                transform: translateY(-5px);
+                transform: translateX(-50%) translateY(-5px);
             }
         }
 
         .scroll-indicator svg {
             width: 24px;
             height: 24px;
-            stroke: #a78bfa;
+            stroke: #4a9eff;
             opacity: 0.6;
         }
 
         /* Features Section */
         .features {
             min-height: 100vh;
-            background: #1a1a2e;
-            padding: 120px 40px;
+            background: #0a0a0a;
+            padding: 120px 80px;
         }
 
         .features-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         .section-title {
-            font-size: 48px;
+            font-size: 64px;
             font-weight: 700;
-            text-align: center;
             margin-bottom: 80px;
-            letter-spacing: -1px;
+            letter-spacing: -2px;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-bottom: 80px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-bottom: 100px;
         }
 
         .feature-card {
-            background: #0a0a0f;
-            border: 1px solid #2a2a3e;
+            background: #000000;
+            border: 1px solid #1a1a1a;
             border-radius: 16px;
-            padding: 40px;
+            padding: 48px;
             transition: all 0.3s ease;
         }
 
         .feature-card:hover {
             transform: translateY(-4px);
-            border-color: #a78bfa;
-            box-shadow: 0 8px 24px rgba(167, 139, 250, 0.2);
+            border-color: #4a9eff;
+            box-shadow: 0 12px 32px rgba(74, 158, 255, 0.15);
         }
 
         .feature-icon {
-            font-size: 48px;
+            font-size: 56px;
             margin-bottom: 24px;
         }
 
         .feature-title {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             color: #ffffff;
         }
 
         .feature-description {
-            font-size: 16px;
+            font-size: 17px;
             line-height: 1.6;
-            color: #a0a0b0;
+            color: #888;
         }
-
-        /* Editor Preview */
-        .editor-preview {
-            background: #0a0a0f;
-            border: 1px solid #2a2a3e;
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 80px;
-        }
-
-        .preview-header {
-            background: #1a1a2e;
-            padding: 16px 24px;
-            border-bottom: 1px solid #2a2a3e;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .preview-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #2a2a3e;
-        }
-
-        .preview-dot.red { background: #ff6b6b; }
-        .preview-dot.yellow { background: #ffd93d; }
-        .preview-dot.green { background: #6bcf7f; }
-
-        .preview-body {
-            padding: 40px;
-            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
-            font-size: 14px;
-            line-height: 1.6;
-            color: #e0e0e0;
-        }
-
-        .code-line {
-            display: block;
-        }
-
-        .code-tag { color: #a78bfa; }
-        .code-attr { color: #ff6b9d; }
-        .code-string { color: #c3e88d; }
 
         /* CTA Section */
         .cta-section {
             text-align: center;
-            padding-bottom: 80px;
+            padding: 80px 0;
         }
 
         .cta-title {
-            font-size: 36px;
+            font-size: 48px;
             font-weight: 700;
-            margin-bottom: 24px;
+            margin-bottom: 32px;
+            letter-spacing: -1px;
         }
 
         /* Footer */
         .footer {
-            background: #0a0a0f;
-            border-top: 1px solid #2a2a3e;
+            background: #000000;
+            border-top: 1px solid #1a1a1a;
             padding: 40px;
             text-align: center;
         }
 
         .footer a {
-            color: #a78bfa;
+            color: #4a9eff;
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
         .footer a:hover {
-            color: #b99dfb;
+            color: #5aafff;
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 1200px) {
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 60px 40px;
+                gap: 60px;
+                text-align: center;
+            }
+
+            .hero-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
             .logo {
-                font-size: 48px;
+                font-size: 80px;
             }
 
             .hero-buttons {
-                flex-direction: column;
-                gap: 12px;
+                justify-content: center;
             }
 
-            .section-title {
-                font-size: 36px;
+            .browser-mockup {
+                max-width: 600px;
+                margin: 0 auto;
             }
 
             .features {
-                padding: 80px 20px;
+                padding: 80px 40px;
             }
 
             .features-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 48px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 56px;
+            }
+
+            .tagline {
+                font-size: 18px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .browser-content {
+                height: 300px;
+            }
+
+            .browser-sidebar {
+                width: 150px;
             }
         }
     </style>
@@ -279,11 +410,48 @@
 <body>
     <!-- Hero Section -->
     <section class="hero">
-        <h1 class="logo">CodeFlow</h1>
-        <div class="hero-buttons">
-            <a href="projects.html" class="btn btn-primary">My Projects</a>
-            <a href="editor.html" class="btn btn-secondary">New Project</a>
+        <div class="hero-content">
+            <h1 class="logo">CodeFlow</h1>
+            <p class="tagline">Code HTML in your browser. Simple as that.</p>
+            <div class="hero-buttons">
+                <a href="projects.html" class="btn btn-primary">My Projects</a>
+                <a href="editor.html" class="btn btn-secondary">New Project</a>
+            </div>
         </div>
+
+        <div class="browser-mockup">
+            <div class="browser-window" id="browserWindow">
+                <div class="browser-header">
+                    <div class="browser-dots">
+                        <div class="browser-dot red"></div>
+                        <div class="browser-dot yellow"></div>
+                        <div class="browser-dot green"></div>
+                    </div>
+                    <div class="browser-url">localhost:3000/my-project</div>
+                </div>
+                <div class="browser-content">
+                    <div class="browser-sidebar">
+                        <div class="sidebar-title">Files</div>
+                        <div class="file-item active">📄 index.html</div>
+                        <div class="file-item">🎨 style.css</div>
+                        <div class="file-item">⚡ script.js</div>
+                    </div>
+                    <div class="browser-editor">
+<span class="code-line"><span class="code-tag">&lt;!DOCTYPE</span> html<span class="code-tag">&gt;</span></span>
+<span class="code-line"><span class="code-tag">&lt;html</span> <span class="code-attr">lang</span>=<span class="code-string">"en"</span><span class="code-tag">&gt;</span></span>
+<span class="code-line"><span class="code-tag">&lt;head&gt;</span></span>
+<span class="code-line">  <span class="code-tag">&lt;title&gt;</span>Hello World<span class="code-tag">&lt;/title&gt;</span></span>
+<span class="code-line"><span class="code-tag">&lt;/head&gt;</span></span>
+<span class="code-line"><span class="code-tag">&lt;body&gt;</span></span>
+<span class="code-line">  <span class="code-tag">&lt;h1&gt;</span>Welcome to CodeFlow<span class="code-tag">&lt;/h1&gt;</span></span>
+<span class="code-line">  <span class="code-tag">&lt;p&gt;</span>Start coding instantly<span class="code-tag">&lt;/p&gt;</span></span>
+<span class="code-line"><span class="code-tag">&lt;/body&gt;</span></span>
+<span class="code-line"><span class="code-tag">&lt;/html&gt;</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="scroll-indicator">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
@@ -301,23 +469,15 @@
                     <div class="feature-icon">⚡</div>
                     <h3 class="feature-title">Instant Preview</h3>
                     <p class="feature-description">
-                        See your HTML come to life as you type. No refresh needed, no delays. Just pure, instant feedback.
+                        See your HTML come to life as you type. No refresh needed, no delays.
                     </p>
                 </div>
 
                 <div class="feature-card">
                     <div class="feature-icon">💾</div>
-                    <h3 class="feature-title">Everything Saved Locally</h3>
+                    <h3 class="feature-title">Local First</h3>
                     <p class="feature-description">
-                        Your projects live in your browser. No accounts, no servers, no privacy concerns. Your code stays yours.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
-                    <h3 class="feature-title">Beautiful Interface</h3>
-                    <p class="feature-description">
-                        Clean, distraction-free design that gets out of your way. Focus on what matters: your code.
+                        Your projects live in your browser. No accounts, no servers, no privacy concerns.
                     </p>
                 </div>
 
@@ -325,7 +485,7 @@
                     <div class="feature-icon">🚀</div>
                     <h3 class="feature-title">Smart Editor</h3>
                     <p class="feature-description">
-                        Auto-close tags, bracket matching, undo/redo, and keyboard shortcuts. All the essentials, none of the bloat.
+                        Auto-close tags, bracket matching, and keyboard shortcuts. All the essentials.
                     </p>
                 </div>
 
@@ -333,7 +493,7 @@
                     <div class="feature-icon">📦</div>
                     <h3 class="feature-title">Multi-File Projects</h3>
                     <p class="feature-description">
-                        Organize your HTML, CSS, and JavaScript files. Keep everything structured and clean.
+                        Organize HTML, CSS, and JavaScript files. Keep everything structured.
                     </p>
                 </div>
 
@@ -341,28 +501,16 @@
                     <div class="feature-icon">⚙️</div>
                     <h3 class="feature-title">Zero Setup</h3>
                     <p class="feature-description">
-                        No installation, no configuration, no tutorials. Just open and start coding. It's that simple.
+                        No installation, no configuration. Just open and start coding instantly.
                     </p>
                 </div>
-            </div>
 
-            <!-- Editor Preview -->
-            <div class="editor-preview">
-                <div class="preview-header">
-                    <div class="preview-dot red"></div>
-                    <div class="preview-dot yellow"></div>
-                    <div class="preview-dot green"></div>
-                </div>
-                <div class="preview-body">
-                    <span class="code-line"><span class="code-tag">&lt;!DOCTYPE</span> <span class="code-attr">html</span><span class="code-tag">&gt;</span></span>
-                    <span class="code-line"><span class="code-tag">&lt;html</span> <span class="code-attr">lang</span>=<span class="code-string">"en"</span><span class="code-tag">&gt;</span></span>
-                    <span class="code-line"><span class="code-tag">&lt;head&gt;</span></span>
-                    <span class="code-line">    <span class="code-tag">&lt;title&gt;</span>My Project<span class="code-tag">&lt;/title&gt;</span></span>
-                    <span class="code-line"><span class="code-tag">&lt;/head&gt;</span></span>
-                    <span class="code-line"><span class="code-tag">&lt;body&gt;</span></span>
-                    <span class="code-line">    <span class="code-tag">&lt;h1&gt;</span>Hello World<span class="code-tag">&lt;/h1&gt;</span></span>
-                    <span class="code-line"><span class="code-tag">&lt;/body&gt;</span></span>
-                    <span class="code-line"><span class="code-tag">&lt;/html&gt;</span></span>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">Clean Interface</h3>
+                    <p class="feature-description">
+                        Distraction-free design that gets out of your way. Focus on your code.
+                    </p>
                 </div>
             </div>
 
@@ -378,5 +526,29 @@
     <footer class="footer">
         <p>Made by <a href="https://madebyliamm.github.io/MadeByLiam/" target="_blank">Liam</a></p>
     </footer>
+
+    <script>
+        // Browser window tilt effect on mouse move
+        const browserWindow = document.getElementById('browserWindow');
+        const browserMockup = document.querySelector('.browser-mockup');
+
+        browserMockup.addEventListener('mousemove', (e) => {
+            const rect = browserMockup.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+            
+            browserWindow.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        browserMockup.addEventListener('mouseleave', () => {
+            browserWindow.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        });
+    </script>
 </body>
 </html>
