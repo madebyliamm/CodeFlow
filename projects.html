@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects - CodeFlow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Top Nav */
+        .top-nav {
+            background: #0a0a0a;
+            border-bottom: 1px solid #1a1a1a;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 0%, #4a9eff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .new-project-btn {
+            background: #4a9eff;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .new-project-btn:hover {
+            background: #5aafff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(74, 158, 255, 0.3);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .page-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            letter-spacing: -1px;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .project-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 48px 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(74, 158, 255, 0.2);
+        }
+
+        .project-card.empty {
+            background: transparent;
+            border: 2px dashed #2a2a2a;
+            color: #666;
+        }
+
+        .project-card.empty:hover {
+            border-color: #4a9eff;
+            color: #4a9eff;
+            box-shadow: none;
+        }
+
+        .project-emoji {
+            font-size: 72px;
+            margin-bottom: 16px;
+            line-height: 1;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        .project-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+
+        .empty-text {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .project-date {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .project-actions {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover .project-actions {
+            opacity: 1;
+        }
+
+        .action-btn {
+            background: rgba(0, 0, 0, 0.05);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .action-btn.delete:hover {
+            background: #ff6b6b;
+            color: #fff;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 450px;
+            width: 90%;
+            max-height: 90vh;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .modal-section {
+            margin-bottom: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .modal-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #999;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 4px;
+            margin-bottom: 20px;
+            max-height: 180px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .emoji-grid::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .emoji-grid::-webkit-scrollbar-track {
+            background: #0a0a0a;
+            border-radius: 4px;
+        }
+
+        .emoji-grid::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 4px;
+        }
+
+        .emoji-grid::-webkit-scrollbar-thumb:hover {
+            background: #3a3a3a;
+        }
+
+        .emoji-option {
+            font-size: 24px;
+            padding: 6px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            text-align: center;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+            box-sizing: border-box;
+        }
+
+        .emoji-option:hover {
+            background: #2a2a2a;
+        }
+
+        .emoji-option.selected {
+            background: #4a9eff20;
+            border-color: #4a9eff;
+        }
+
+        .modal-input {
+            width: 100%;
+            background: #0a0a0a;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: #e0e0e0;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .modal-input:focus {
+            border-color: #4a9eff;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .modal-btn.cancel {
+            background: #2a2a2a;
+            color: #e0e0e0;
+        }
+
+        .modal-btn.cancel:hover {
+            background: #3a3a3a;
+        }
+
+        .modal-btn.confirm {
+            background: #4a9eff;
+            color: #ffffff;
+        }
+
+        .modal-btn.confirm:hover {
+            background: #5aafff;
+        }
+
+        .modal-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+
+            .page-title {
+                font-size: 36px;
+            }
+
+            .projects-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .modal-content {
+                padding: 20px;
+                width: 85%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .emoji-grid {
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+            }
+
+            .top-nav {
+                padding: 16px 20px;
+            }
+
+            .new-project-btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .modal-content {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Nav -->
+    <nav class="top-nav">
+        <a href="index.html" class="logo">CodeFlow</a>
+        <button class="new-project-btn" onclick="openCreateModal()">+ New Project</button>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="page-title">My Projects</h1>
+        <div class="projects-grid" id="projectsGrid">
+            <!-- Empty state card -->
+            <div class="project-card empty" onclick="openCreateModal()">
+                <div class="empty-icon">+</div>
+                <div class="empty-text">Create your first project</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create/Edit Modal -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <h2 class="modal-title" id="modalTitle">Create New Project</h2>
+            
+            <div class="modal-section">
+                <label class="modal-label">Choose an emoji</label>
+                <div class="emoji-grid" id="emojiGrid">
+                    <!-- Emojis will be inserted here -->
+                </div>
+            </div>
+
+            <div class="modal-section">
+                <label class="modal-label">Project name</label>
+                <input type="text" class="modal-input" id="projectNameInput" placeholder="My Awesome Project" maxlength="30">
+            </div>
+
+            <div class="modal-actions">
+                <button class="modal-btn cancel" onclick="closeModal()">Cancel</button>
+                <button class="modal-btn confirm" id="confirmBtn" onclick="confirmModal()">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Common emojis for projects
+        const emojis = ['🚀', '💻', '🎨', '⚡', '🔥', '✨', '🌟', '💡', '🎯', '📱', '🌈', '🎮', '🎵', '📚', '🏆', '💎', '🌸', '🍕', '☕', '🎪', '🎭', '🎬', '📷', '🎸', '🏀', '⚽', '🎲', '🧩', '🔮', '🎨', '🖼️', '📝'];
+
+        let projects = [];
+        let selectedEmoji = '🚀';
+        let editingProjectId = null;
+
+        // Load projects from localStorage
+        function loadProjects() {
+            const saved = localStorage.getItem('codeflow_projects');
+            if (saved) {
+                projects = JSON.parse(saved);
+            }
+            renderProjects();
+        }
+
+        // Save projects to localStorage
+        function saveProjects() {
+            localStorage.setItem('codeflow_projects', JSON.stringify(projects));
+        }
+
+        // Render projects grid
+        function renderProjects() {
+            const grid = document.getElementById('projectsGrid');
+            
+            if (projects.length === 0) {
+                grid.innerHTML = `
+                    <div class="project-card empty" onclick="openCreateModal()">
+                        <div class="empty-icon">+</div>
+                        <div class="empty-text">Create your first project</div>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = projects.map(project => `
+                <div class="project-card" onclick="openProject('${project.id}')">
+                    <div class="project-actions">
+                        <button class="action-btn" onclick="event.stopPropagation(); editProject('${project.id}')" title="Edit">✏️</button>
+                        <button class="action-btn delete" onclick="event.stopPropagation(); deleteProject('${project.id}')" title="Delete">🗑️</button>
+                    </div>
+                    <div class="project-emoji">${project.emoji}</div>
+                    <div class="project-name">${project.name}</div>
+                    <div class="project-date">${formatDate(project.lastEdited)}</div>
+                </div>
+            `).join('') + `
+                <div class="project-card empty" onclick="openCreateModal()">
+                    <div class="empty-icon">+</div>
+                    <div class="empty-text">New project</div>
+                </div>
+            `;
+        }
+
+        // Format date
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+
+            if (diffMins < 1) return 'Just now';
+            if (diffMins < 60) return `${diffMins} min ago`;
+            if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+            if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+            
+            return date.toLocaleDateString();
+        }
+
+        // Render emoji grid
+        function renderEmojiGrid() {
+            const grid = document.getElementById('emojiGrid');
+            grid.innerHTML = emojis.map(emoji => `
+                <div class="emoji-option ${emoji === selectedEmoji ? 'selected' : ''}" 
+                     onclick="selectEmoji('${emoji}')">
+                    ${emoji}
+                </div>
+            `).join('');
+        }
+
+        // Select emoji
+        function selectEmoji(emoji) {
+            selectedEmoji = emoji;
+            renderEmojiGrid();
+        }
+
+        // Open create modal
+        function openCreateModal() {
+            editingProjectId = null;
+            selectedEmoji = '🚀';
+            document.getElementById('modalTitle').textContent = 'Create New Project';
+            document.getElementById('projectNameInput').value = '';
+            document.getElementById('confirmBtn').textContent = 'Create';
+            renderEmojiGrid();
+            document.getElementById('projectModal').classList.add('show');
+            document.getElementById('projectNameInput').focus();
+        }
+
+        // Edit project
+        function editProject(id) {
+            const project = projects.find(p => p.id === id);
+            if (!project) return;
+
+            editingProjectId = id;
+            selectedEmoji = project.emoji;
+            document.getElementById('modalTitle').textContent = 'Edit Project';
+            document.getElementById('projectNameInput').value = project.name;
+            document.getElementById('confirmBtn').textContent = 'Save';
+            renderEmojiGrid();
+            document.getElementById('projectModal').classList.add('show');
+            document.getElementById('projectNameInput').focus();
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('projectModal').classList.remove('show');
+        }
+
+        // Confirm modal
+        function confirmModal() {
+            const name = document.getElementById('projectNameInput').value.trim();
+            
+            if (!name) {
+                alert('Please enter a project name');
+                return;
+            }
+
+            if (editingProjectId) {
+                // Edit existing project
+                const project = projects.find(p => p.id === editingProjectId);
+                if (project) {
+                    project.name = name;
+                    project.emoji = selectedEmoji;
+                    project.lastEdited = Date.now();
+                }
+            } else {
+                // Create new project
+                const newProject = {
+                    id: Date.now().toString(),
+                    name: name,
+                    emoji: selectedEmoji,
+                    lastEdited: Date.now(),
+                    files: {
+                        'index.html': '<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>' + name + '</title>\n<\/head>\n<body>\n    <h1>Welcome to ' + name + '<\/h1>\n<\/body>\n<\/html>'
+                    }
+                };
+                projects.unshift(newProject);
+            }
+
+            saveProjects();
+            renderProjects();
+            closeModal();
+        }
+
+        // Delete project
+        function deleteProject(id) {
+            const project = projects.find(p => p.id === id);
+            if (!project) return;
+
+            if (confirm(`Delete "${project.name}"?`)) {
+                projects = projects.filter(p => p.id !== id);
+                saveProjects();
+                renderProjects();
+            }
+        }
+
+        // Open project in editor
+        function openProject(id) {
+            localStorage.setItem('codeflow_current_project', id);
+            window.location.href = 'editor.html';
+        }
+
+        // Enter key in input
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('projectNameInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    confirmModal();
+                }
+            });
+
+            loadProjects();
+        });
+
+        // Close modal on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
